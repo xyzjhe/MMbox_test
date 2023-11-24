@@ -145,6 +145,29 @@ public class FastSearchActivity extends BaseVbActivity<ActivityFastSearchBinding
         }
     }
 
+
+    private FastListAdapter spListAdapter;
+    private View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View itemView, boolean hasFocus) {
+            try {
+                if (!hasFocus) {
+                    spListAdapter.onLostFocus(itemView);
+                } else {
+                    int ret = spListAdapter.onSetFocus(itemView);
+                    if (ret < 0) return;
+                    TextView v = (TextView) itemView;
+                    String sb = v.getText().toString();
+                    filterResult(sb);
+                }
+            } catch (Exception e) {
+                Toast.makeText(FastSearchActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    };
+
+
     private void initView() {
 
         mBinding.etSearch.setOnEditorActionListener((v, actionId, event) -> {
@@ -174,6 +197,36 @@ public class FastSearchActivity extends BaseVbActivity<ActivityFastSearchBinding
                 return null;
             });
             return null;
+        });
+
+        mBinding.mGridViewWord.setHasFixedSize(true);
+        mBinding.mGridViewWord.setLayoutManager(new V7LinearLayoutManager(this.mContext, 1, false));
+        spListAdapter = new FastListAdapter();
+        mBinding.mGridViewWord.setAdapter(spListAdapter);
+
+        spListAdapter.setOnItemClickListener((adapter, view, position) -> {
+            String spName = spListAdapter.getItem(position);
+            filterResult(spName);
+        });
+
+        mBinding.mGridViewWord.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(@NonNull View child) {
+                child.setFocusable(true);
+                child.setOnFocusChangeListener(focusChangeListener);
+                TextView t = (TextView) child;
+                if (t.getText() == "全部显示") {
+                    t.requestFocus();
+                }
+//                if (child.isFocusable() && null == child.getOnFocusChangeListener()) {
+//                    child.setOnFocusChangeListener(focusChangeListener);
+//                }
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(@NonNull View view) {
+                view.setOnFocusChangeListener(null);
+            }
         });
 
         mBinding.mGridView.setHasFixedSize(true);
@@ -577,6 +630,7 @@ public class FastSearchActivity extends BaseVbActivity<ActivityFastSearchBinding
         searchAdapter.setNewData(new ArrayList<>());
         searchAdapterFilter.setNewData(new ArrayList<>());
 
+        spListAdapter.reset();
         resultVods.clear();
         searchFilterKey = "";
         isFilterMode = false;
@@ -636,10 +690,16 @@ public class FastSearchActivity extends BaseVbActivity<ActivityFastSearchBinding
 
 
         ArrayList<String> siteKey = new ArrayList<>();
-
         mBinding.tabLayout.addView(getSiteTextView("全部显示"));
 
         mBinding.tabLayout.setCurrentItem(0, true,false);
+
+
+        ArrayList<String> hots = new ArrayList<>();
+
+        spListAdapter.setNewData(hots);
+        spListAdapter.addData("全部显示");
+
         for (SourceBean bean : searchRequestList) {
             if (!bean.isSearchable()) {
                 continue;
@@ -665,13 +725,37 @@ public class FastSearchActivity extends BaseVbActivity<ActivityFastSearchBinding
             });
         }
     }
+    // 向过滤栏添加有结果的spname
+    private String addWordAdapterIfNeed(String key) {
+        try {
+            String name = "";
+            for (String n : spNames.keySet()) {
+                if (Objects.equals(spNames.get(n), key)) {
+                    name = n;
+                }
+            }
+            if (name.isEmpty()) return key;
+
+            List<String> names = spListAdapter.getData();
+            for (String s : names) {
+                if (name.equals(s)) {
+                    return key;
+                }
+            }
+
+            spListAdapter.addData(name);
+            return key;
+        } catch (Exception e) {
+            return key;
+        }
+    }
 
     /**
      * 添加到最后面并返回最后一个key
      * @param key
      * @return
      */
-    private String addWordAdapterIfNeed(String key) {
+    private String addWordAdapterIfNeedBackup(String key) {
         try {
             String name = "";
             for (String n : spNames.keySet()) {

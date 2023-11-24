@@ -189,20 +189,24 @@ public class ModelSettingFragment extends BaseLazyFragment {
         });
 
         tvLongPressSpeed = findViewById(R.id.tvSpeed);
+
+        float beforeSpeed = SPUtils.getInstance().getFloat(CacheConst.VIDEO_SPEED, 1.25f);
+        tvLongPressSpeed.setText(String.valueOf(beforeSpeed));
         findViewById(R.id.llPressSpeed).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                float beforeSpeed = SPUtils.getInstance().getFloat(CacheConst.VIDEO_SPEED, 2.0f);
-                tvLongPressSpeed.setText(String.valueOf(beforeSpeed));
-                String[] items = {"2.0", "3.0", "4.0", "5.0"};
-                int defaultPos = Arrays.asList(items).indexOf(String.valueOf(beforeSpeed));
+                String[] items = {"1.25", "1.5", "1.75", "2.0", "3.0", "4.0", "5.0"};
+                float currentPos = SPUtils.getInstance().getFloat(CacheConst.VIDEO_SPEED, 1.25f);
+                int defaultPos = Arrays.asList(items).indexOf(String.valueOf(currentPos));
 
                 ArrayList<Integer> types = new ArrayList<>();
                 types.add(0);
                 types.add(1);
                 types.add(2);
                 types.add(3);
+                types.add(4);
+                types.add(5);
+                types.add(6);
                 SelectDialog<Integer> dialog = new SelectDialog<>(mActivity);
                 dialog.setTip("请选择");
                 dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<Integer>() {

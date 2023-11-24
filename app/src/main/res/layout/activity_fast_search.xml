@@ -133,17 +133,18 @@
         android:orientation="horizontal"
         android:visibility="gone"
         android:background="@color/bg_gray_deep"
+        android:paddingVertical="@dimen/dp_10"
         tools:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_fenci"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/item_search_word_hot"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp"
-            />
+                android:id="@+id/rv_fenci"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_search_word_hot"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp"
+        />
 
         <LinearLayout
                 android:id="@+id/llWord"
@@ -161,10 +162,23 @@
                     app:tab_indicator_anim="false"
                     app:tab_indicator_drawable="@drawable/bg_ll_word_indicator"
                     app:tab_orientation="VERTICAL"
+                    android:visibility="gone"
                     app:tab_select_color="@color/colorPrimary">
+
 
             </com.angcyo.tablayout.DslTabLayout>
 
+
+            <com.owen.tvrecyclerview.widget.TvRecyclerView
+                    android:id="@+id/mGridViewWord"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:focusable="true"
+                    app:tv_horizontalSpacingWithMargins="@dimen/dp_2"
+                    app:tv_selectedItemIsCentered="true"
+                    app:tv_verticalSpacingWithMargins="@dimen/dp_5" />
         </LinearLayout>
 
         <LinearLayout
@@ -185,9 +199,9 @@
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:visibility="invisible"
-                    app:tv_horizontalSpacingWithMargins="@dimen/dp_10"
+                    app:tv_horizontalSpacingWithMargins="@dimen/dp_2"
                     app:tv_selectedItemIsCentered="true"
-                    app:tv_verticalSpacingWithMargins="@dimen/dp_10"/>
+                    app:tv_verticalSpacingWithMargins="@dimen/dp_5"/>
 
             <com.owen.tvrecyclerview.widget.TvRecyclerView
                     android:id="@+id/mGridViewFilter"
@@ -196,9 +210,9 @@
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:visibility="invisible"
-                    app:tv_horizontalSpacingWithMargins="@dimen/dp_10"
+                    app:tv_horizontalSpacingWithMargins="@dimen/dp_2"
                     app:tv_selectedItemIsCentered="true"
-                    app:tv_verticalSpacingWithMargins="@dimen/dp_10"/>
+                    app:tv_verticalSpacingWithMargins="@dimen/dp_5"/>
 
 
         </LinearLayout>

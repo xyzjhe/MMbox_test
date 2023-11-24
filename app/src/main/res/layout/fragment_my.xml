@@ -13,7 +13,7 @@
         android:paddingTop="@dimen/dp_40"
         android:paddingBottom="@dimen/dp_20"
         android:background="@color/bg_gray"
-        android:elevation="@dimen/dp_10"
+        android:elevation="@dimen/dp_2"
         android:paddingHorizontal="20dp">
 
         <TextView
