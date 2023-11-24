@@ -133,7 +133,6 @@
         android:orientation="horizontal"
         android:visibility="gone"
         android:background="@color/bg_gray_deep"
-        android:paddingVertical="@dimen/dp_10"
         tools:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -176,9 +175,9 @@
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:focusable="true"
-                    app:tv_horizontalSpacingWithMargins="@dimen/dp_2"
-                    app:tv_selectedItemIsCentered="true"
-                    app:tv_verticalSpacingWithMargins="@dimen/dp_5" />
+                    app:tv_horizontalSpacingWithMargins="@dimen/dp_10"
+                    app:tv_selectedItemIsCentered="false"
+                    app:tv_verticalSpacingWithMargins="@dimen/dp_10" />
         </LinearLayout>
 
         <LinearLayout
@@ -199,9 +198,9 @@
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:visibility="invisible"
-                    app:tv_horizontalSpacingWithMargins="@dimen/dp_2"
+                    app:tv_horizontalSpacingWithMargins="@dimen/dp_10"
                     app:tv_selectedItemIsCentered="true"
-                    app:tv_verticalSpacingWithMargins="@dimen/dp_5"/>
+                    app:tv_verticalSpacingWithMargins="@dimen/dp_10"/>
 
             <com.owen.tvrecyclerview.widget.TvRecyclerView
                     android:id="@+id/mGridViewFilter"
@@ -210,9 +209,9 @@
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:visibility="invisible"
-                    app:tv_horizontalSpacingWithMargins="@dimen/dp_2"
+                    app:tv_horizontalSpacingWithMargins="@dimen/dp_10"
                     app:tv_selectedItemIsCentered="true"
-                    app:tv_verticalSpacingWithMargins="@dimen/dp_5"/>
+                    app:tv_verticalSpacingWithMargins="@dimen/dp_10"/>
 
 
         </LinearLayout>

@@ -48,10 +48,10 @@ import com.github.tvbox.osc.ui.adapter.SearchWordAdapter;
 import com.github.tvbox.osc.ui.dialog.SearchCheckboxDialog;
 import com.github.tvbox.osc.ui.dialog.SearchSuggestionsDialog;
 import com.github.tvbox.osc.ui.dialog.TmdbVodInfoDialog;
-import com.github.tvbox.osc.ui.tv.widget.MarqueeTextView;
 import com.github.tvbox.osc.ui.widget.LinearSpacingItemDecoration;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.util.HawkConfig;
+import com.github.tvbox.osc.util.LOG;
 import com.github.tvbox.osc.util.SearchHelper;
 import com.github.tvbox.osc.util.js.JSEngine;
 import com.github.tvbox.osc.viewmodel.SourceViewModel;
@@ -62,37 +62,27 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
-import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.hawk.Hawk;
-import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
-import com.zhy.view.flowlayout.TagFlowLayout;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import SevenZip.Compression.LZMA.Base;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
-import kotlin.jvm.functions.Function4;
 
 /**
  * @author pj567
@@ -152,10 +142,9 @@ public class FastSearchActivity extends BaseVbActivity<ActivityFastSearchBinding
         public void onFocusChange(View itemView, boolean hasFocus) {
             try {
                 if (!hasFocus) {
-                    spListAdapter.onLostFocus(itemView);
+                    itemView.clearFocus();
                 } else {
-                    int ret = spListAdapter.onSetFocus(itemView);
-                    if (ret < 0) return;
+                    itemView.requestFocus();
                     TextView v = (TextView) itemView;
                     String sb = v.getText().toString();
                     filterResult(sb);
@@ -208,6 +197,7 @@ public class FastSearchActivity extends BaseVbActivity<ActivityFastSearchBinding
             String spName = spListAdapter.getItem(position);
             filterResult(spName);
         });
+
 
         mBinding.mGridViewWord.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
