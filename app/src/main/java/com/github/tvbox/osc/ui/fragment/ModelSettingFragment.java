@@ -494,6 +494,7 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 ArrayList<Integer> types = new ArrayList<>();
                 types.add(0);
                 types.add(1);
+                types.add(2);
                 SelectDialog<Integer> dialog = new SelectDialog<>(mActivity);
                 dialog.setTip("主页内容显示");
                 dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<Integer>() {
@@ -738,10 +739,13 @@ public class ModelSettingFragment extends BaseLazyFragment {
     }
 
     String getHomeRecName(int type) {
-        if (type == 1) {
-            return "站点推荐";
-        } else {
-            return "豆瓣热播";
+        switch (type) {
+            case 0:
+                return "豆瓣热播";
+            case 1:
+                return "站点推荐";
+            default:
+                return "关闭";
         }
     }
 
