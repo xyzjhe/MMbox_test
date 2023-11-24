@@ -17,10 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.animation.content.EllipseContent;
 import com.angcyo.tablayout.DslTabLayout;
 import com.angcyo.tablayout.DslTabLayoutConfig;
 import com.blankj.utilcode.util.GsonUtils;
@@ -46,6 +48,7 @@ import com.github.tvbox.osc.ui.adapter.SearchWordAdapter;
 import com.github.tvbox.osc.ui.dialog.SearchCheckboxDialog;
 import com.github.tvbox.osc.ui.dialog.SearchSuggestionsDialog;
 import com.github.tvbox.osc.ui.dialog.TmdbVodInfoDialog;
+import com.github.tvbox.osc.ui.tv.widget.MarqueeTextView;
 import com.github.tvbox.osc.ui.widget.LinearSpacingItemDecoration;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.util.HawkConfig;
@@ -591,10 +594,23 @@ public class FastSearchActivity extends BaseVbActivity<ActivityFastSearchBinding
         textView.setText(text);
         textView.setGravity(Gravity.CENTER);
         DslTabLayout.LayoutParams params = new DslTabLayout.LayoutParams(-2, -2);
-        params.topMargin = 20;
-        params.bottomMargin = 20;
-        textView.setPadding(20, 10, 20, 10);
+        // params.topMargin = 20;
+        // params.bottomMargin = 20;
+
+        params.topMargin = "全部显示".equals(text)?0:10;
+        params.bottomMargin = 10;
+        textView.setPadding(20, 25, 20, 25);
+        textView.setBackground(ContextCompat.getDrawable(this, R.drawable.button_red_mask));
         textView.setLayoutParams(params);
+        textView.setSingleLine(true);
+        // android:ellipsize="marquee"
+        // android:marqueeRepeatLimit="marquee_forever"
+        textView.setFocusable(true); // 获取焦点
+        // textView.setFocusableInTouchMode(true);
+        textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        textView.setMarqueeRepeatLimit(Integer.MAX_VALUE);
+        textView.setOnLongClickListener(view -> false);
+
         return textView;
     }
     private void searchResult() {
@@ -622,6 +638,7 @@ public class FastSearchActivity extends BaseVbActivity<ActivityFastSearchBinding
         ArrayList<String> siteKey = new ArrayList<>();
 
         mBinding.tabLayout.addView(getSiteTextView("全部显示"));
+
         mBinding.tabLayout.setCurrentItem(0, true,false);
         for (SourceBean bean : searchRequestList) {
             if (!bean.isSearchable()) {

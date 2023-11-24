@@ -1,6 +1,7 @@
 package com.github.tvbox.osc.ui.activity;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.base.BaseLazyFragment;
 import com.github.tvbox.osc.base.BaseVbActivity;
 import com.github.tvbox.osc.databinding.ActivityMainBinding;
@@ -40,6 +42,8 @@ public class MainActivity extends BaseVbActivity<ActivityMainBinding> {
             mBinding.vp.setCurrentItem(menuItem.getOrder(), false);
             return true;
         });
+        // mBinding.bottomNav.setOutlineAmbientShadowColor(ContextCompat.getColor(this, R.color.white));
+        // mBinding.bottomNav.setOutlineSpotShadowColor(ContextCompat.getColor(this, R.color.transparent));
         mBinding.vp.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
